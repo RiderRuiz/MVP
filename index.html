@@ -1,0 +1,147 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>SmartInbox — Demo UI</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="app.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <img src="https://img.icons8.com/fluency/48/000000/inbox.png" alt="logo"/>
+      <div>
+        <h1>SmartInbox</h1>
+        <p class="muted">Inbox compartido · Demo UI</p>
+      </div>
+    </div>
+
+    <div class="top-actions">
+      <div class="metrics-mini" id="mini-metrics">
+        <div><strong id="total-count">0</strong><span>Total</span></div>
+        <div><strong id="urgent-count">0</strong><span>Urgentes</span></div>
+        <div><strong id="general-count">0</strong><span>Generales</span></div>
+      </div>
+      <button id="btn-open-compose" class="btn primary">+ Simular Mensaje</button>
+    </div>
+  </header>
+
+  <main class="container">
+    <aside class="left-panel">
+      <section class="card">
+        <h3>Canales</h3>
+        <div class="channels">
+          <button class="chip" data-canal="WhatsApp">WhatsApp</button>
+          <button class="chip" data-canal="Telegram">Telegram</button>
+          <button class="chip" data-canal="Gmail">Gmail</button>
+          <button class="chip" data-canal="Facebook">Facebook</button>
+          <button class="chip" data-canal="Formulario">Formulario Web</button>
+        </div>
+      </section>
+
+      <section class="card">
+        <h3>Filtros</h3>
+        <label>Buscar</label>
+        <input id="search-input" placeholder="Buscar por texto o usuario" />
+        <label>Filtrar por canal</label>
+        <select id="filter-canal">
+          <option value="">Todos</option>
+          <option>WhatsApp</option>
+          <option>Telegram</option>
+          <option>Gmail</option>
+          <option>Facebook</option>
+          <option>Formulario</option>
+        </select>
+
+        <label>Filtrar por categoría</label>
+        <select id="filter-categoria">
+          <option value="">Todas</option>
+          <option>Urgente</option>
+          <option>Consulta</option>
+          <option>Feedback</option>
+          <option>General</option>
+        </select>
+
+        <button id="btn-clear-filters" class="btn outline">Limpiar filtros</button>
+      </section>
+
+      <section class="card small">
+        <h3>Métricas</h3>
+        <div id="metrics" class="metrics">
+          <div><span class="big" id="metric-total">0</span><div>Total</div></div>
+          <div><span class="big" id="metric-urgent">0</span><div>Urgentes</div></div>
+          <div><span class="big" id="metric-avg">0</span><div>% Urgente</div></div>
+        </div>
+      </section>
+    </aside>
+
+    <section class="main-panel">
+      <div class="card actions-row">
+        <div>
+          <label>Ordenar por:</label>
+          <select id="sort-by">
+            <option value="new">Más recientes</option>
+            <option value="old">Más antiguos</option>
+            <option value="urgent">Urgente primero</option>
+          </select>
+        </div>
+        <div>
+          <label>Mostrar:</label>
+          <select id="page-size">
+            <option>10</option>
+            <option>25</option>
+            <option>50</option>
+          </select>
+        </div>
+      </div>
+
+      <div id="inbox-list" class="inbox-list"></div>
+    </section>
+
+    <aside class="right-panel">
+      <section class="card">
+        <h3>Detalles</h3>
+        <div id="detail-pane" class="detail empty">
+          <p>Selecciona un mensaje para ver detalles</p>
+        </div>
+      </section>
+
+      <section class="card small">
+        <h3>Acciones rápidas</h3>
+        <button id="btn-assign" class="btn">Asignar a Usuario</button>
+        <button id="btn-mark-read" class="btn outline">Marcar como leído</button>
+        <button id="btn-export" class="btn outline">Exportar CSV</button>
+      </section>
+    </aside>
+  </main>
+
+  <!-- Modal Compose -->
+  <div id="compose-modal" class="modal hidden">
+    <div class="modal-card">
+      <h2>Simular Mensaje</h2>
+      <label>Canal</label>
+      <select id="compose-canal">
+        <option>WhatsApp</option>
+        <option>Telegram</option>
+        <option>Gmail</option>
+        <option>Facebook</option>
+        <option>Formulario</option>
+      </select>
+      <label>Usuario</label>
+      <input id="compose-usuario" placeholder="Ej. María Pérez" />
+      <label>Mensaje</label>
+      <textarea id="compose-mensaje" rows="5" placeholder="Escribe el texto..."></textarea>
+      <div class="modal-actions">
+        <button id="compose-send" class="btn primary">Enviar</button>
+        <button id="compose-cancel" class="btn outline">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <div>SmartInbox · Demo UI — Muestra de interfaz (no conecta a canales reales)</div>
+    <div class="muted">Hecho para presentación · Muestra funcional: simula integración multicanal</div>
+  </footer>
+</body>
+</html>
