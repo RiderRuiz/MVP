@@ -3,11 +3,13 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SmartInbox — Demo UI</title>
+  <title>SmartInbox — Demo UI Pro</title>
+
   <link rel="stylesheet" href="styles.css" />
   <script defer src="app.js"></script>
 </head>
-<body>
+<body class="light">
+
   <header class="topbar">
     <div class="brand">
       <img src="https://img.icons8.com/fluency/48/000000/inbox.png" alt="logo"/>
@@ -18,17 +20,27 @@
     </div>
 
     <div class="top-actions">
-      <div class="metrics-mini" id="mini-metrics">
-        <div><strong id="total-count">0</strong><span>Total</span></div>
-        <div><strong id="urgent-count">0</strong><span>Urgentes</span></div>
-        <div><strong id="general-count">0</strong><span>Generales</span></div>
+      <div class="theme-toggle">
+        <label class="switch">
+          <input type="checkbox" id="toggle-dark">
+          <span class="slider round"></span>
+        </label>
+        <small id="themeLabel">Modo oscuro</small>
       </div>
+
+      <div class="metrics-mini">
+        <div><strong id="header-total">0</strong><span>Total</span></div>
+        <div><strong id="header-urgent">0</strong><span>Urgentes</span></div>
+      </div>
+
       <button id="btn-open-compose" class="btn primary">+ Simular Mensaje</button>
     </div>
   </header>
 
   <main class="container">
+    
     <aside class="left-panel">
+      
       <section class="card">
         <h3>Canales</h3>
         <div class="channels">
@@ -43,8 +55,10 @@
       <section class="card">
         <h3>Filtros</h3>
         <label>Buscar</label>
-        <input id="search-input" placeholder="Buscar por texto o usuario" />
-        <label>Filtrar por canal</label>
+        <input id="search-input" placeholder="Buscar..." />
+        
+        <div style="height:12px"></div>
+        <label>Canal</label>
         <select id="filter-canal">
           <option value="">Todos</option>
           <option>WhatsApp</option>
@@ -53,8 +67,9 @@
           <option>Facebook</option>
           <option>Formulario</option>
         </select>
-
-        <label>Filtrar por categoría</label>
+        
+        <div style="height:12px"></div>
+        <label>Categoría</label>
         <select id="filter-categoria">
           <option value="">Todas</option>
           <option>Urgente</option>
@@ -63,35 +78,47 @@
           <option>General</option>
         </select>
 
-        <button id="btn-clear-filters" class="btn outline">Limpiar filtros</button>
+        <button id="btn-clear-filters" class="btn outline" style="width:100%; margin-top:12px">Limpiar filtros</button>
       </section>
 
-      <section class="card small">
-        <h3>Métricas</h3>
-        <div id="metrics" class="metrics">
-          <div><span class="big" id="metric-total">0</span><div>Total</div></div>
-          <div><span class="big" id="metric-urgent">0</span><div>Urgentes</div></div>
-          <div><span class="big" id="metric-avg">0</span><div>% Urgente</div></div>
+      <section class="card">
+        <h3>Resumen</h3>
+        <div class="metrics-grid">
+          <div class="metric-box">
+            <span class="big" id="metric-total">0</span>
+            <small>Total</small>
+          </div>
+          <div class="metric-box">
+            <span class="big urgent" id="metric-urgent">0</span>
+            <small>Urgentes</small>
+          </div>
+          <div class="metric-box">
+            <span class="big general" id="metric-general">0</span>
+            <small>Generales</small>
+          </div>
+          <div class="metric-box">
+            <span class="big" id="metric-avg">0%</span>
+            <small>% Urgencia</small>
+          </div>
         </div>
       </section>
     </aside>
 
     <section class="main-panel">
       <div class="card actions-row">
-        <div>
-          <label>Ordenar por:</label>
-          <select id="sort-by">
+        <div style="display:flex; align-items:center;">
+          <label>Ordenar:</label>
+          <select id="sort-by" style="width:140px">
             <option value="new">Más recientes</option>
             <option value="old">Más antiguos</option>
             <option value="urgent">Urgente primero</option>
           </select>
         </div>
-        <div>
+        <div style="display:flex; align-items:center;">
           <label>Mostrar:</label>
-          <select id="page-size">
+          <select id="page-size" style="width:70px">
             <option>10</option>
             <option>25</option>
-            <option>50</option>
           </select>
         </div>
       </div>
@@ -101,47 +128,58 @@
 
     <aside class="right-panel">
       <section class="card">
-        <h3>Detalles</h3>
+        <h3>Detalles del Ticket</h3>
         <div id="detail-pane" class="detail empty">
-          <p>Selecciona un mensaje para ver detalles</p>
+          <p>Selecciona un mensaje</p>
         </div>
       </section>
 
-      <section class="card small">
-        <h3>Acciones rápidas</h3>
-        <button id="btn-assign" class="btn">Asignar a Usuario</button>
-        <button id="btn-mark-read" class="btn outline">Marcar como leído</button>
-        <button id="btn-export" class="btn outline">Exportar CSV</button>
+      <section class="card">
+        <h3>Acciones</h3>
+        <div style="display:grid; gap:10px;">
+          <button id="btn-assign" class="btn primary" style="justify-content:center">Asignar a Usuario</button>
+          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
+            <button id="btn-mark-read" class="btn outline" style="justify-content:center">Leído</button>
+            <button id="btn-attended" class="btn success" style="justify-content:center">Atendido</button>
+          </div>
+          <button id="btn-export" class="btn outline" style="justify-content:center">Exportar CSV</button>
+        </div>
       </section>
     </aside>
   </main>
 
-  <!-- Modal Compose -->
   <div id="compose-modal" class="modal hidden">
     <div class="modal-card">
       <h2>Simular Mensaje</h2>
       <label>Canal</label>
-      <select id="compose-canal">
-        <option>WhatsApp</option>
-        <option>Telegram</option>
-        <option>Gmail</option>
-        <option>Facebook</option>
-        <option>Formulario</option>
-      </select>
+      <select id="compose-canal"><option>WhatsApp</option><option>Telegram</option><option>Gmail</option><option>Facebook</option></select>
+      <div style="height:10px"></div>
       <label>Usuario</label>
-      <input id="compose-usuario" placeholder="Ej. María Pérez" />
+      <input id="compose-usuario" placeholder="Nombre..." />
+      <div style="height:10px"></div>
       <label>Mensaje</label>
-      <textarea id="compose-mensaje" rows="5" placeholder="Escribe el texto..."></textarea>
+      <textarea id="compose-mensaje" rows="4" placeholder="Escribe algo..."></textarea>
       <div class="modal-actions">
-        <button id="compose-send" class="btn primary">Enviar</button>
         <button id="compose-cancel" class="btn outline">Cancelar</button>
+        <button id="compose-send" class="btn primary">Enviar</button>
       </div>
     </div>
   </div>
 
-  <footer class="footer">
-    <div>SmartInbox · Demo UI — Muestra de interfaz (no conecta a canales reales)</div>
-    <div class="muted">Hecho para presentación · Muestra funcional: simula integración multicanal</div>
-  </footer>
+  <div id="assign-modal" class="modal hidden">
+    <div class="modal-card" style="width: 400px;">
+      <h3>Asignar Agente</h3>
+      <div class="agents-grid">
+        <button class="btn-agent" data-agent="Ana Pérez"><div class="avatar">AP</div><span>Ana Pérez</span></button>
+        <button class="btn-agent" data-agent="Carlos Ruiz"><div class="avatar" style="background:#10b981">CR</div><span>Carlos Ruiz</span></button>
+        <button class="btn-agent" data-agent="Soporte N1"><div class="avatar" style="background:#f59e0b">S1</div><span>Soporte N1</span></button>
+        <button class="btn-agent" data-agent="Facturación"><div class="avatar" style="background:#6366f1">F</div><span>Facturación</span></button>
+      </div>
+      <div class="modal-actions" style="margin-top:20px">
+        <button id="assign-cancel" class="btn outline">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
 </body>
 </html>
