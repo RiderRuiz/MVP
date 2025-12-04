@@ -3,183 +3,878 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>SmartInbox — Demo UI Pro</title>
+  <title>SmartInbox – Centraliza tus mensajes</title>
 
   <link rel="stylesheet" href="styles.css" />
-  <script defer src="app.js"></script>
+  <style>
+    /* ====== LANDING LAYOUT ====== */
+    body.landing {
+      min-height: 100vh;
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: #0f172a;
+      background: radial-gradient(circle at top left, #e0f2fe 0, transparent 55%),
+                  radial-gradient(circle at bottom right, #fef9c3 0, transparent 55%),
+                  #0b1220;
+    }
+    .landing-main {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 32px 16px 64px;
+      color: #e5e7eb;
+    }
+
+    /* Top bar simple */
+    .landing-topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 32px;
+      gap: 16px;
+    }
+    .landing-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .landing-brand img {
+      width: 40px;
+      height: 40px;
+    }
+    .landing-brand h1 {
+      font-size: 20px;
+      margin: 0;
+    }
+    .landing-brand span {
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+    .landing-top-actions {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .btn-outline-light {
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.6);
+      background: transparent;
+      color: #e5e7eb;
+      padding: 8px 14px;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: all 0.15s ease;
+    }
+    .btn-outline-light:hover {
+      border-color: #e5e7eb;
+      background: rgba(15, 23, 42, 0.3);
+    }
+    .btn-primary-pill {
+      border-radius: 999px;
+      border: none;
+      padding: 9px 18px;
+      font-size: 13px;
+      cursor: pointer;
+      background: linear-gradient(135deg, #4f46e5, #22c55e);
+      color: #f9fafb;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.55);
+      transition: transform 0.1s ease, box-shadow 0.1s ease, filter 0.1s ease;
+    }
+    .btn-primary-pill:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow: 0 20px 45px rgba(15, 23, 42, 0.65);
+    }
+
+    /* Hero section */
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.7fr);
+      gap: 40px;
+      align-items: center;
+      margin-bottom: 48px;
+    }
+    .hero-kicker {
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.14em;
+      color: #a5b4fc;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(129, 140, 248, 0.4);
+      background: rgba(15, 23, 42, 0.6);
+      margin-bottom: 10px;
+    }
+    .hero h2 {
+      font-size: clamp(30px, 4vw, 40px);
+      line-height: 1.1;
+      margin: 0 0 12px;
+      color: #f9fafb;
+    }
+    .hero h2 span.highlight {
+      background: linear-gradient(135deg, #4f46e5, #22c55e);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .hero-subtitle {
+      font-size: 15px;
+      color: #cbd5f5;
+      max-width: 460px;
+      margin-bottom: 18px;
+    }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+    .hero-badge {
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      background: rgba(15, 23, 42, 0.7);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #e5e7eb;
+    }
+    .hero-badge span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 0 5px rgba(34, 197, 94, 0.3);
+    }
+    .hero-cta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .hero-secondary {
+      font-size: 12px;
+      color: #e5e7eb;
+    }
+    .hero-trust {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      align-items: center;
+      font-size: 11px;
+      color: #e5e7eb;
+      margin-top: 12px;
+    }
+    .hero-avatars {
+      display: flex;
+      margin-left: -4px;
+    }
+    .hero-avatars .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid #0b1120;
+      background: linear-gradient(135deg, #4f46e5, #22c55e);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      color: #f9fafb;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.65);
+      margin-left: -6px;
+    }
+
+    /* Hero visual / preview card */
+    .hero-preview {
+      position: relative;
+    }
+    .preview-card {
+      border-radius: 18px;
+      background: radial-gradient(circle at top left, rgba(129, 140, 248, 0.2), transparent 60%),
+                  rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      padding: 14px 14px 16px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(18px);
+      color: #e5e7eb;
+      font-size: 12px;
+    }
+    .preview-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .preview-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .preview-pill {
+      border-radius: 999px;
+      padding: 4px 8px;
+      font-size: 10px;
+      background: rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .preview-pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+    .preview-main {
+      display: grid;
+      grid-template-columns: 1.2fr 1.8fr;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .preview-list {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: rgba(15, 23, 42, 0.9);
+      padding: 8px;
+      display: grid;
+      gap: 6px;
+    }
+    .preview-item {
+      border-radius: 8px;
+      padding: 6px 7px;
+      background: rgba(17, 24, 39, 0.95);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 7px;
+      cursor: default;
+      animation: float-in 0.5s ease backwards;
+    }
+    .preview-item:nth-child(1) { animation-delay: 0.05s; }
+    .preview-item:nth-child(2) { animation-delay: 0.12s; }
+    .preview-item:nth-child(3) { animation-delay: 0.18s; }
+    .preview-item-tag {
+      font-size: 9px;
+      padding: 3px 6px;
+      border-radius: 999px;
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.6);
+      color: #7dd3fc;
+      align-self: flex-start;
+    }
+    .preview-item-body {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+    .preview-item-title {
+      font-size: 11px;
+      display: flex;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .preview-item-title span.meta {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+    .preview-item-msg {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .preview-detail {
+      border-radius: 12px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      background: radial-gradient(circle at top right, rgba(139, 92, 246, 0.25), transparent 60%),
+                  rgba(15, 23, 42, 0.9);
+      padding: 10px;
+      display: grid;
+      gap: 6px;
+    }
+    .preview-detail-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+    }
+    .preview-detail-header small {
+      color: #9ca3af;
+    }
+    .preview-detail-body {
+      font-size: 11px;
+      color: #e5e7eb;
+      border-radius: 8px;
+      background: rgba(15, 23, 42, 0.85);
+      padding: 8px;
+      border: 1px dashed rgba(148, 163, 184, 0.6);
+    }
+    .preview-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .preview-metrics {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 8px;
+      font-size: 10px;
+    }
+    .preview-metric {
+      border-radius: 999px;
+      padding: 3px 8px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(148, 163, 184, 0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .preview-metric strong {
+      color: #e5e7eb;
+    }
+
+    .floating-pill {
+      position: absolute;
+      top: -20px;
+      right: 10px;
+      padding: 6px 12px;
+      font-size: 10px;
+      border-radius: 999px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(129, 140, 248, 0.7);
+      display: inline-flex;
+      gap: 6px;
+      align-items: center;
+      color: #c7d2fe;
+      box-shadow: 0 14px 40px rgba(15, 23, 42, 0.75);
+      animation: float 4s ease-in-out infinite;
+    }
+    .floating-pill span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+    }
+
+    /* Sección features */
+    .landing-sections {
+      display: grid;
+      grid-template-columns: minmax(0, 3fr) minmax(0, 2.4fr);
+      gap: 32px;
+      margin-bottom: 48px;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+    }
+    .feature-card {
+      border-radius: 14px;
+      padding: 12px 12px 14px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.8);
+      position: relative;
+      overflow: hidden;
+    }
+    .feature-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 13px;
+      margin-bottom: 6px;
+      background: radial-gradient(circle at top left, #4f46e5 0, #22c55e 80%);
+      color: #f9fafb;
+    }
+    .feature-card h3 {
+      font-size: 13px;
+      margin: 0 0 4px;
+      color: #e5e7eb;
+    }
+    .feature-card p {
+      font-size: 11px;
+      color: #9ca3af;
+      margin: 0;
+    }
+    .feature-tag {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      border: 1px solid rgba(22, 163, 74, 0.4);
+      color: #bbf7d0;
+      background: rgba(22, 163, 74, 0.12);
+    }
+
+    /* Panel lateral: FAQ / pasos */
+    .side-panel {
+      border-radius: 16px;
+      padding: 16px 16px 18px;
+      background: rgba(15, 23, 42, 0.96);
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      box-shadow: 0 20px 50px rgba(15, 23, 42, 0.9);
+    }
+    .side-panel h3 {
+      font-size: 14px;
+      margin: 0 0 8px;
+      color: #e5e7eb;
+    }
+    .side-panel p {
+      font-size: 11px;
+      color: #9ca3af;
+      margin: 0 0 10px;
+    }
+    .steps {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 10px;
+      font-size: 11px;
+      color: #e5e7eb;
+    }
+    .steps li {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 6px;
+      align-items: flex-start;
+    }
+    .steps span.step-number {
+      width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: rgba(79, 70, 229, 0.25);
+      border: 1px solid rgba(129, 140, 248, 0.7);
+      font-size: 11px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #c7d2fe;
+      margin-top: 1px;
+    }
+    .steps li span.text {
+      flex: 1;
+    }
+
+    .faq-list {
+      border-top: 1px dashed rgba(75, 85, 99, 0.8);
+      margin-top: 10px;
+      padding-top: 10px;
+      display: grid;
+      gap: 4px;
+    }
+    .faq-item {
+      border-radius: 10px;
+      padding: 6px 7px;
+      background: rgba(15, 23, 42, 0.9);
+      border: 1px solid transparent;
+      cursor: pointer;
+      font-size: 11px;
+      color: #e5e7eb;
+      display: grid;
+      gap: 3px;
+      transition: all 0.12s ease;
+    }
+    .faq-item:hover {
+      border-color: rgba(129, 140, 248, 0.7);
+      background: rgba(15, 23, 42, 0.97);
+    }
+    .faq-item-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+    }
+    .faq-item-header span.q {
+      font-weight: 500;
+    }
+    .faq-item-header span.icon {
+      font-size: 14px;
+      color: #9ca3af;
+      transform: translateY(-1px);
+    }
+    .faq-answer {
+      font-size: 10px;
+      color: #9ca3af;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.18s ease;
+    }
+    .faq-item.open .faq-answer {
+      max-height: 90px;
+    }
+
+    /* Footer simple */
+    .landing-footer {
+      margin-top: 24px;
+      padding: 16px 18px 14px;
+      border-top: 1px solid rgba(30, 64, 175, 0.7);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #111827;
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: 12px;
+    }
+    .landing-footer a {
+      color: #111827;
+      text-decoration: none;
+      font-size: 11px;
+      font-weight: 500;
+    }
+    .landing-footer a:hover {
+      text-decoration: underline;
+    }
+
+    /* Responsivo */
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-preview {
+        order: -1;
+      }
+      .landing-sections {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .features-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+    @keyframes float-in {
+      0% { opacity: 0; transform: translateY(8px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+  </style>
 </head>
-<body class="light">
+<body class="landing">
+  <main class="landing-main">
+    <!-- Topbar -->
+    <header class="landing-topbar">
+      <div class="landing-brand">
+        <img src="https://img.icons8.com/fluency/48/000000/inbox.png" alt="SmartInbox logo" />
+        <div>
+          <h1>SmartInbox</h1>
+          <span>Inbox compartido para tu equipo</span>
+        </div>
+      </div>
+      <div class="landing-top-actions">
+        <button class="btn-outline-light" id="btn-scroll-features">
+          Ver cómo funciona
+        </button>
+        <button class="btn-primary-pill" id="btn-open-demo">
+          Probar demo ahora
+        </button>
+      </div>
+    </header>
 
-  <header class="topbar">
-    <div class="brand">
-      <img src="https://img.icons8.com/fluency/48/000000/inbox.png" alt="logo"/>
+    <!-- Hero -->
+    <section class="hero">
       <div>
-        <h1>SmartInbox</h1>
-        <p class="muted">Inbox compartido · Demo UI</p>
-      </div>
-    </div>
-
-    <div class="top-actions">
-      <div class="theme-toggle">
-        <label class="switch">
-          <input type="checkbox" id="toggle-dark">
-          <span class="slider round"></span>
-        </label>
-        <small id="themeLabel">Modo oscuro</small>
-      </div>
-
-      <div class="metrics-mini">
-        <div><strong id="header-total">0</strong><span>Total</span></div>
-        <div><strong id="header-urgent">0</strong><span>Urgentes</span></div>
-      </div>
-
-      <button id="btn-open-compose" class="btn primary">+ Simular Mensaje</button>
-    </div>
-  </header>
-
-  <main class="container">
-    
-    <aside class="left-panel">
-      
-      <section class="card">
-        <h3>Canales</h3>
-        <div class="channels">
-          <button class="chip" data-canal="WhatsApp">WhatsApp</button>
-          <button class="chip" data-canal="Telegram">Telegram</button>
-          <button class="chip" data-canal="Gmail">Gmail</button>
-          <button class="chip" data-canal="Facebook">Facebook</button>
-          <button class="chip" data-canal="Formulario">Formulario Web</button>
+        <div class="hero-kicker">
+          <span>Nuevo</span> Inbox compartido sin fricción
         </div>
-      </section>
+        <h2>
+          Centraliza WhatsApp, email y más
+          <span class="highlight">en una sola bandeja</span>.
+        </h2>
+        <p class="hero-subtitle">
+          SmartInbox es un inbox compartido para equipos que atienden clientes
+          en múltiples canales. Sin implementación compleja: solo entra, conecta y responde.
+        </p>
 
-      <section class="card">
-        <h3>Filtros</h3>
-        <label>Buscar</label>
-        <input id="search-input" placeholder="Buscar..." />
-        
-        <div style="height:12px"></div>
-        <label>Canal</label>
-        <select id="filter-canal">
-          <option value="">Todos</option>
-          <option>WhatsApp</option>
-          <option>Telegram</option>
-          <option>Gmail</option>
-          <option>Facebook</option>
-          <option>Formulario</option>
-        </select>
-        
-        <div style="height:12px"></div>
-        <label>Categoría</label>
-        <select id="filter-categoria">
-          <option value="">Todas</option>
-          <option>Urgente</option>
-          <option>Consulta</option>
-          <option>Feedback</option>
-          <option>General</option>
-        </select>
-
-        <button id="btn-clear-filters" class="btn outline" style="width:100%; margin-top:12px">Limpiar filtros</button>
-      </section>
-
-      <section class="card">
-        <h3>Resumen</h3>
-        <div class="metrics-grid">
-          <div class="metric-box">
-            <span class="big" id="metric-total">0</span>
-            <small>Total</small>
+        <div class="hero-badges">
+          <div class="hero-badge">
+            <span class="dot"></span>
+            SLA más rápido
           </div>
-          <div class="metric-box">
-            <span class="big urgent" id="metric-urgent">0</span>
-            <small>Urgentes</small>
+          <div class="hero-badge">
+            ⚡ Resuelve 2× más tickets al día
           </div>
-          <div class="metric-box">
-            <span class="big general" id="metric-general">0</span>
-            <small>Generales</small>
-          </div>
-          <div class="metric-box">
-            <span class="big" id="metric-avg">0%</span>
-            <small>% Urgencia</small>
+          <div class="hero-badge">
+            🔁 Automatiza asignaciones y estados
           </div>
         </div>
-      </section>
-    </aside>
 
-    <section class="main-panel">
-      <div class="card actions-row">
-        <div style="display:flex; align-items:center;">
-          <label>Ordenar:</label>
-          <select id="sort-by" style="width:140px">
-            <option value="new">Más recientes</option>
-            <option value="old">Más antiguos</option>
-            <option value="urgent">Urgente primero</option>
-          </select>
+        <div class="hero-cta-row">
+          <button class="btn-primary-pill" id="btn-open-demo-hero">
+            Entrar a la demo interactiva
+          </button>
+          <button class="btn-outline-light" id="btn-scroll-faq">
+            Ver FAQs
+          </button>
         </div>
-        <div style="display:flex; align-items:center;">
-          <label>Mostrar:</label>
-          <select id="page-size" style="width:70px">
-            <option>10</option>
-            <option>25</option>
-          </select>
+        <p class="hero-secondary">
+          No pedimos tarjeta. Es una demo de producto para validar el MVP.
+        </p>
+
+        <div class="hero-trust">
+          <div class="hero-avatars">
+            <div class="avatar">AP</div>
+            <div class="avatar">CR</div>
+            <div class="avatar">S1</div>
+          </div>
+          <span>
+            Equipos de soporte usan bandejas compartidas para bajar tiempos de respuesta.
+          </span>
         </div>
       </div>
 
-      <div id="inbox-list" class="inbox-list"></div>
+      <!-- Vista previa "glass" del inbox -->
+      <div class="hero-preview">
+        <div class="floating-pill">
+          <span class="dot"></span>
+          Inbox ordenado en minutos
+        </div>
+        <div class="preview-card">
+          <div class="preview-header">
+            <span style="font-size:11px;color:#cbd5f5;">SmartInbox · Vista de equipo</span>
+            <div class="preview-pills">
+              <div class="preview-pill"><span class="dot"></span> SLA &lt; 3 min</div>
+              <div class="preview-pill">5 agentes conectados</div>
+            </div>
+          </div>
+          <div class="preview-main">
+            <div class="preview-list">
+              <div class="preview-item">
+                <span class="preview-item-tag">WhatsApp</span>
+                <div class="preview-item-body">
+                  <div class="preview-item-title">
+                    <span>Pedido atrasado · <strong>Urgente</strong></span>
+                    <span class="meta">hace 4 min</span>
+                  </div>
+                  <div class="preview-item-msg">
+                    “Hola, mi pedido aún no llega…”
+                  </div>
+                </div>
+              </div>
+              <div class="preview-item">
+                <span class="preview-item-tag" style="background:rgba(244,114,182,0.16);border-color:rgba(244,114,182,0.7);color:#f9a8d4;">Gmail</span>
+                <div class="preview-item-body">
+                  <div class="preview-item-title">
+                    <span>Solicitud de factura</span>
+                    <span class="meta">hace 12 min</span>
+                  </div>
+                  <div class="preview-item-msg">
+                    “¿Podrían enviarme la factura del último pago?”
+                  </div>
+                </div>
+              </div>
+              <div class="preview-item">
+                <span class="preview-item-tag" style="background:rgba(52,211,153,0.12);border-color:rgba(34,197,94,0.7);color:#6ee7b7;">Formulario</span>
+                <div class="preview-item-body">
+                  <div class="preview-item-title">
+                    <span>Feedback NPS</span>
+                    <span class="meta">hace 25 min</span>
+                  </div>
+                  <div class="preview-item-msg">
+                    “Me encantó la atención de soporte 🙌”
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="preview-detail">
+              <div class="preview-detail-header">
+                <div>
+                  <strong style="font-size:11px;">Pedido atrasado · T-7841</strong><br />
+                  <small>Asignado a Ana · Canal WhatsApp</small>
+                </div>
+                <span style="font-size:10px;color:#bbf7d0;">Urgente</span>
+              </div>
+              <div class="preview-detail-body">
+                “Hola, mi pedido no ha llegado y en la guía aparece entregado.
+                ¿Me pueden ayudar a revisarlo?”
+              </div>
+              <div class="preview-footer">
+                <span>Macros sugeridas: <strong>Pedido atrasado</strong>, <strong>Verificar envío</strong></span>
+                <span>Tiempo en espera: <strong>3:24</strong></span>
+              </div>
+            </div>
+          </div>
+
+          <div class="preview-metrics">
+            <div class="preview-metric">
+              ⏱ <strong>2.8 min</strong> tiempo medio de primera respuesta
+            </div>
+            <div class="preview-metric">
+              ✅ <strong>92%</strong> tickets resueltos en el primer contacto
+            </div>
+          </div>
+        </div>
+      </div>
     </section>
 
-    <aside class="right-panel">
-      <section class="card">
-        <h3>Detalles del Ticket</h3>
-        <div id="detail-pane" class="detail empty">
-          <p>Selecciona un mensaje</p>
+    <!-- Features + panel lateral -->
+    <section class="landing-sections" id="features">
+      <div>
+        <p style="font-size:12px;color:#e5e7eb;margin:0 0 8px;">
+          Pensado para equipos que atienden clientes en WhatsApp, email y redes.
+        </p>
+        <div class="features-grid">
+          <article class="feature-card">
+            <div class="feature-icon">⚡</div>
+            <h3>Unifica todos tus canales</h3>
+            <p>Centraliza WhatsApp, email, Telegram, Facebook y formularios en una sola cola de tickets.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Colaboración sin pisarse</h3>
+            <p>Asigna tickets a agentes, comenta internamente y evita respuestas duplicadas a un mismo cliente.</p>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Visibilidad en tiempo real</h3>
+            <p>Monitorea urgentes, SLA, y carga por agente desde un solo panel de métricas.</p>
+            <span class="feature-tag">MVP · Demo</span>
+          </article>
+          <article class="feature-card">
+            <div class="feature-icon">🔁</div>
+            <h3>Workflows simples</h3>
+            <p>Marca como leído, atendido, exporta CSV y prueba cómo fluiría tu operación diaria.</p>
+          </article>
         </div>
-      </section>
+      </div>
 
-      <section class="card">
-        <h3>Acciones</h3>
-        <div style="display:grid; gap:10px;">
-          <button id="btn-assign" class="btn primary" style="justify-content:center">Asignar a Usuario</button>
-          <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px">
-            <button id="btn-mark-read" class="btn outline" style="justify-content:center">Leído</button>
-            <button id="btn-attended" class="btn success" style="justify-content:center">Atendido</button>
+      <aside class="side-panel" id="faq">
+        <h3>Prueba la demo en menos de 30 segundos</h3>
+        <p>
+          No necesitas credenciales reales. Solo entrarás a una simulación de inbox compartido
+          para validar la idea del producto.
+        </p>
+        <ol class="steps">
+          <li>
+            <span class="step-number">1</span>
+            <span class="text">Haz clic en “Probar demo ahora”.</span>
+          </li>
+          <li>
+            <span class="step-number">2</span>
+            <span class="text">Simula mensajes desde distintos canales dentro del MVP.</span>
+          </li>
+          <li>
+            <span class="step-number">3</span>
+            <span class="text">Asigna tickets y mira cómo cambia el resumen.</span>
+          </li>
+        </ol>
+
+        <div class="faq-list">
+          <div class="faq-item">
+            <div class="faq-item-header">
+              <span class="q">¿Tengo que instalar algo?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+              No. Todo corre en tu navegador: haces clic y entras directo al MVP.
+            </div>
           </div>
-          <button id="btn-export" class="btn outline" style="justify-content:center">Exportar CSV</button>
+          <div class="faq-item">
+            <div class="faq-item-header">
+              <span class="q">¿Es una demo real?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+              Es una simulación de bandeja compartida: puedes crear tickets, cambiarlos de estado y ver métricas básicas.
+            </div>
+          </div>
+          <div class="faq-item">
+            <div class="faq-item-header">
+              <span class="q">¿Puedo usar mis datos de verdad?</span>
+              <span class="icon">+</span>
+            </div>
+            <div class="faq-answer">
+              Por ahora te recomendamos datos ficticios. El foco está en validar el flujo de atención, no la integración.
+            </div>
+          </div>
         </div>
-      </section>
-    </aside>
+      </aside>
+    </section>
+
+    <!-- Footer -->
+    <footer class="landing-footer">
+      <span>© <span id="year"></span> SmartInbox · MVP demo</span>
+      <span>
+        Hecho para validar un inbox compartido. 
+        <a href="#features">Ver funcionalidades</a>
+      </span>
+    </footer>
   </main>
 
-  <div id="compose-modal" class="modal hidden">
-    <div class="modal-card">
-      <h2>Simular Mensaje</h2>
-      <label>Canal</label>
-      <select id="compose-canal"><option>WhatsApp</option><option>Telegram</option><option>Gmail</option><option>Facebook</option></select>
-      <div style="height:10px"></div>
-      <label>Usuario</label>
-      <input id="compose-usuario" placeholder="Nombre..." />
-      <div style="height:10px"></div>
-      <label>Mensaje</label>
-      <textarea id="compose-mensaje" rows="4" placeholder="Escribe algo..."></textarea>
-      <div class="modal-actions">
-        <button id="compose-cancel" class="btn outline">Cancelar</button>
-        <button id="compose-send" class="btn primary">Enviar</button>
-      </div>
-    </div>
-  </div>
+  <script>
+    // Año dinámico
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-  <div id="assign-modal" class="modal hidden">
-    <div class="modal-card" style="width: 400px;">
-      <h3>Asignar Agente</h3>
-      <div class="agents-grid">
-        <button class="btn-agent" data-agent="Ana Pérez"><div class="avatar">AP</div><span>Ana Pérez</span></button>
-        <button class="btn-agent" data-agent="Carlos Ruiz"><div class="avatar" style="background:#10b981">CR</div><span>Carlos Ruiz</span></button>
-        <button class="btn-agent" data-agent="Soporte N1"><div class="avatar" style="background:#f59e0b">S1</div><span>Soporte N1</span></button>
-        <button class="btn-agent" data-agent="Facturación"><div class="avatar" style="background:#6366f1">F</div><span>Facturación</span></button>
-      </div>
-      <div class="modal-actions" style="margin-top:20px">
-        <button id="assign-cancel" class="btn outline">Cancelar</button>
-      </div>
-    </div>
-  </div>
+    // Botones que llevan a la demo (app.html)
+    function goToDemo() {
+      window.location.href = 'app.html';
+    }
+    document.getElementById('btn-open-demo').addEventListener('click', goToDemo);
+    document.getElementById('btn-open-demo-hero').addEventListener('click', goToDemo);
 
+    // Scroll suave a secciones
+    document.getElementById('btn-scroll-features').addEventListener('click', function () {
+      document.getElementById('features').scrollIntoView({ behavior: 'smooth' });
+    });
+    document.getElementById('btn-scroll-faq').addEventListener('click', function () {
+      document.getElementById('faq').scrollIntoView({ behavior: 'smooth' });
+    });
+
+    // FAQs interactivas
+    document.querySelectorAll('.faq-item').forEach(function (item) {
+      item.addEventListener('click', function () {
+        const open = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(function (i) {
+          i.classList.remove('open');
+          i.querySelector('.icon').textContent = '+';
+        });
+        if (!open) {
+          item.classList.add('open');
+          item.querySelector('.icon').textContent = '–';
+        }
+      });
+    });
+  </script>
+
+  <button id="btn-back-top">↑ Volver arriba</button>
+
+  <script>
+    // Botón "Volver arriba"
+    const backTopBtn = document.getElementById('btn-back-top');
+    window.addEventListener('scroll', function () {
+      if (window.scrollY > 180) {
+        backTopBtn.style.opacity = '1';
+        backTopBtn.style.pointerEvents = 'auto';
+      } else {
+        backTopBtn.style.opacity = '0';
+        backTopBtn.style.pointerEvents = 'none';
+      }
+    });
+    backTopBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+  </script>
 </body>
 </html>
